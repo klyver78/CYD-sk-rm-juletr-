@@ -33,7 +33,7 @@ jobs:
           mkdir -p web/firmware
           cp .pio/build/cyd/bootloader.bin web/firmware/bootloader.bin
           cp .pio/build/cyd/partitions.bin web/firmware/partitions.bin
-          cp .pio/build/cyd/boot_app0.bin web/firmware/boot_app0.bin
+          cp ~/.platformio/packages/framework-arduinoespressif32/tools/partitions/boot_app0.bin web/firmware/boot_app0.bin
           cp .pio/build/cyd/firmware.bin web/firmware/firmware-v1.0.0.bin
       - name: Configure Pages
         uses: actions/configure-pages@v5

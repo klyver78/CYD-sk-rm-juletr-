@@ -26,9 +26,42 @@ XPT2046_Touchscreen touch(TOUCH_CS, TOUCH_IRQ);
 
 struct Bulb { int16_t x, y; uint16_t color; bool lit; uint32_t nextChange; };
 Bulb bulbs[] = {
-  {142, 84, BLUE, true, 0}, {181, 88, RED, true, 0},
-  {119, 127, RED, true, 0}, {160, 132, BLUE, true, 0}, {202, 126, YELLOW, true, 0},
-  {91, 171, BLUE, true, 0}, {137, 179, YELLOW, true, 0}, {184, 174, RED, true, 0}, {225, 164, BLUE, true, 0}
+  {145, 78, RED, true, 0},
+  {175, 78, BLUE, true, 0},
+  {130, 96, YELLOW, true, 0},
+  {160, 96, RED, true, 0},
+  {190, 96, BLUE, true, 0},
+  {118, 114, YELLOW, true, 0},
+  {146, 114, RED, true, 0},
+  {174, 114, BLUE, true, 0},
+  {202, 114, YELLOW, true, 0},
+  {105, 132, RED, true, 0},
+  {132, 132, BLUE, true, 0},
+  {160, 132, YELLOW, true, 0},
+  {188, 132, RED, true, 0},
+  {215, 132, BLUE, true, 0},
+  {92, 150, YELLOW, true, 0},
+  {115, 150, RED, true, 0},
+  {138, 150, BLUE, true, 0},
+  {160, 150, YELLOW, true, 0},
+  {182, 150, RED, true, 0},
+  {205, 150, BLUE, true, 0},
+  {228, 150, YELLOW, true, 0},
+  {78, 168, RED, true, 0},
+  {100, 168, BLUE, true, 0},
+  {122, 168, YELLOW, true, 0},
+  {144, 168, RED, true, 0},
+  {166, 168, BLUE, true, 0},
+  {188, 168, YELLOW, true, 0},
+  {210, 168, RED, true, 0},
+  {232, 168, BLUE, true, 0},
+  {79, 186, YELLOW, true, 0},
+  {104, 186, RED, true, 0},
+  {129, 186, BLUE, true, 0},
+  {154, 186, YELLOW, true, 0},
+  {179, 186, RED, true, 0},
+  {204, 186, BLUE, true, 0},
+  {229, 186, YELLOW, true, 0}
 };
 static constexpr size_t BULB_COUNT = sizeof(bulbs) / sizeof(bulbs[0]);
 uint32_t bootAt = 0, greetingUntil = 0;
@@ -92,18 +125,18 @@ void drawScene() {
   tft.fillEllipse(160, 226, 86, 7, 0x18E3);
   tft.fillRoundRect(143, 188, 34, 43, 8, BROWN);
   tft.drawRoundRect(143, 188, 34, 43, 8, OUTLINE);
-  tft.fillTriangle(160, 47, 43, 207, 277, 207, OUTLINE);
-  tft.fillTriangle(160, 52, 51, 201, 269, 201, GREEN_DARK);
+  tft.fillTriangle(160, 47, 68, 207, 252, 207, OUTLINE);
+  tft.fillTriangle(160, 52, 76, 201, 244, 201, GREEN_DARK);
 
   const int16_t topLights[] = {135, 160, 185};
   const int16_t midLights[] = {100, 130, 160, 190, 220};
   const int16_t lowerLights[] = {74, 103, 132, 160, 188, 217, 246};
-  const int16_t baseLights[] = {58, 88, 118, 148, 172, 202, 232, 262};
+  const int16_t baseLights[] = {84, 111, 138, 160, 182, 209, 236};
 
   drawTreeTier(50, 112, 108, 208, GREEN_LIGHT, topLights, 3, 13);
   drawTreeTier(75, 82, 150, 238, GREEN, midLights, 5, 15);
   drawTreeTier(106, 55, 188, 265, GREEN_LIGHT, lowerLights, 7, 17);
-  drawTreeTier(137, 43, 207, 277, GREEN, baseLights, 8, 16);
+  drawTreeTier(137, 68, 207, 252, GREEN, baseLights, 7, 15);
 
   drawStar(255);
   for (size_t i = 0; i < BULB_COUNT; ++i) drawBulb(i);

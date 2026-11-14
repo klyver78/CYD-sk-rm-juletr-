@@ -1,15 +1,15 @@
 {
   "name": "CYD Juletræ",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "new_install_prompt_erase": true,
   "builds": [
     {
       "chipFamily": "ESP32",
       "parts": [
-        { "path": "firmware/bootloader.bin?v=1.0.2", "offset": 4096 },
-        { "path": "firmware/partitions.bin?v=1.0.2", "offset": 32768 },
-        { "path": "firmware/boot_app0.bin?v=1.0.2", "offset": 57344 },
-        { "path": "firmware/firmware-v1.0.2.bin?v=1.0.2", "offset": 65536 }
+        { "path": "firmware/bootloader.bin?v=1.0.3", "offset": 4096 },
+        { "path": "firmware/partitions.bin?v=1.0.3", "offset": 32768 },
+        { "path": "firmware/boot_app0.bin?v=1.0.3", "offset": 57344 },
+        { "path": "firmware/firmware-v1.0.3.bin?v=1.0.3", "offset": 65536 }
       ]
     }
   ]

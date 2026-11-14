@@ -4,8 +4,9 @@ Et animeret juletræ til **ESP32-2432S028R CYD** med 320 × 240 touchskærm i la
 
 ## Hvad programmet gør
 
-- Viser et juletræ på mørkeblå baggrund. Træets tegning står stille, mens de røde, blå og gule lys blinker med individuelle, tilfældige intervaller på 2–6 sekunder.
-- Stjernen forbliver gul og skifter blødt i lysstyrke.
+- Tegner et fyldigt juletræ med flere overlappende, takkede grengrene, stjerne, pynt og **50** lys fordelt fra top til bund.
+- Lysene er røde, blå og gule og blinker individuelt med tilfældige intervaller på 2–6 sekunder. Kun lysenes små områder opdateres under blink, så resten af tegningen står stille.
+- Stjernen forbliver gul og pulserer i lysstyrke.
 - Efter 30 sekunder dæmpes skærmens bagbelysning fra 100 % til cirka 30 %. Et tryk gendanner 100 % og starter 30-sekundersperioden igen.
 - Når lysstyrken er 100 %, viser et tryk “Klyver” og “JUL” i grønt på et rødt hjerte i tre sekunder. Derefter vender træet tilbage.
 - Touch, lysanimation og bagbelysning håndteres lokalt. Der kræves ikke Wi-Fi.
@@ -20,7 +21,7 @@ Skærm- og touchopsætningen følger [CYD-test](https://github.com/klyver78/CYD-
 
 ## Webinstaller
 
-**[Åbn CYD Juletræ Web Installer](https://klyver78.github.io/CYD-sk-rm-juletr-/)**. Webinstallatøren virker i Chrome eller Edge på en computer via Web Serial.
+**[Åbn CYD Juletræ Web Installer](https://klyver78.github.io/CYD-sk-rm-juletr-/)**. Webinstallatøren virker i Chrome eller Edge på en computer via Web Serial. Den installerer firmware **v1.0.3**.
 
 Installationen overskriver firmwaren på enheden. Tilslut CYD’en med et USB-datakabel, tryk på installer, vælg enhedens serielle port, og bekræft.
 

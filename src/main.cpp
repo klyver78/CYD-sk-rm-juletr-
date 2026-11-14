@@ -44,7 +44,7 @@ uint16_t scale565(uint16_t c, uint8_t amount) {
 void drawBulb(size_t i) {
   const Bulb &b = bulbs[i];
   // Repaint only the bulb patch when its state changes.
-  tft.fillCircle(b.x, b.y, 8, BG);
+  tft.fillCircle(b.x, b.y, 8, GREEN);
   if (b.lit) {
     tft.fillCircle(b.x, b.y, 7, scale565(b.color, 70));
     tft.fillCircle(b.x, b.y, 4, b.color);
@@ -59,7 +59,7 @@ void drawStar(uint8_t brightness) {
   const uint16_t face = scale565(YELLOW, brightness);
   const uint16_t edge = scale565(0xFD20, brightness);
   const int cx=160, cy=24;
-  tft.fillCircle(cx, cy, 17, BG);
+  tft.fillRect(cx - 22, cy - 22, 44, 44, BG);
   tft.fillCircle(cx, cy, 13, edge);
   tft.fillCircle(cx, cy, 9, face);
   tft.fillTriangle(cx, cy-20, cx-4, cy-5, cx+4, cy-5, edge);
@@ -72,34 +72,41 @@ void drawStar(uint8_t brightness) {
   tft.fillCircle(cx, cy, 5, face);
 }
 
+void drawTreeTier(int16_t tipY, int16_t leftX, int16_t baseY,
+                  int16_t rightX, uint16_t leafColor,
+                  const int16_t *centers, size_t count, int16_t radius) {
+  // Symmetrical outlined branch layers; both sides share the same geometry.
+  tft.fillTriangle(160, tipY, leftX, baseY, rightX, baseY, OUTLINE);
+  tft.fillTriangle(160, tipY + 5, leftX + 6, baseY - 5,
+                   rightX - 6, baseY - 5, leafColor);
+  for (size_t i = 0; i < count; ++i) {
+    tft.fillCircle(centers[i], baseY - 3, radius, OUTLINE);
+    tft.fillCircle(centers[i], baseY - 4, radius - 3, leafColor);
+  }
+}
+
 void drawScene() {
   tft.fillScreen(BG);
-  // Ground shadow and trunk.
-  tft.fillEllipse(160, 225, 92, 7, 0x18E3);
-  tft.fillRoundRect(142, 188, 36, 43, 8, BROWN);
-  tft.drawRoundRect(142, 188, 36, 43, 8, OUTLINE);
-  // Tree silhouette, layered branches, and scalloped boughs.
-  tft.fillTriangle(160, 34, 48, 202, 272, 202, OUTLINE);
-  tft.fillTriangle(160, 42, 57, 196, 263, 196, GREEN_DARK);
-  tft.fillTriangle(160, 44, 64, 190, 256, 190, GREEN);
-  tft.fillTriangle(160, 60, 74, 151, 246, 151, GREEN_LIGHT);
-  tft.fillTriangle(160, 90, 59, 178, 261, 178, GREEN);
-  tft.fillTriangle(160, 119, 48, 207, 272, 207, GREEN_DARK);
-  tft.fillTriangle(160, 35, 66, 164, 254, 164, GREEN);
-  // Branch scallops give the stylized tree a soft silhouette.
-  for (int x=77; x<=243; x+=22) {
-    const int y = 82 + (x-160)*(x-160)/230;
-    tft.fillCircle(x, y, 13, GREEN_LIGHT);
-    tft.fillCircle(x, y+27, 15, GREEN);
-    tft.fillCircle(x, y+54, 17, GREEN_DARK);
-    tft.fillCircle(x, y+81, 19, GREEN);
-  }
-  // Dark garland strands, drawn before the lights.
-  tft.drawArc(160, 91, 60, 23, 10, 170, OUTLINE, BG);
-  tft.drawArc(160, 132, 88, 25, 10, 170, OUTLINE, BG);
-  tft.drawArc(160, 174, 108, 28, 10, 170, OUTLINE, BG);
+
+  // Static shadow and trunk, followed by four mirrored branch tiers.
+  tft.fillEllipse(160, 226, 86, 7, 0x18E3);
+  tft.fillRoundRect(143, 188, 34, 43, 8, BROWN);
+  tft.drawRoundRect(143, 188, 34, 43, 8, OUTLINE);
+  tft.fillTriangle(160, 47, 43, 207, 277, 207, OUTLINE);
+  tft.fillTriangle(160, 52, 51, 201, 269, 201, GREEN_DARK);
+
+  const int16_t topLights[] = {135, 160, 185};
+  const int16_t midLights[] = {100, 130, 160, 190, 220};
+  const int16_t lowerLights[] = {74, 103, 132, 160, 188, 217, 246};
+  const int16_t baseLights[] = {58, 88, 118, 148, 172, 202, 232, 262};
+
+  drawTreeTier(50, 112, 108, 208, GREEN_LIGHT, topLights, 3, 13);
+  drawTreeTier(75, 82, 150, 238, GREEN, midLights, 5, 15);
+  drawTreeTier(106, 55, 188, 265, GREEN_LIGHT, lowerLights, 7, 17);
+  drawTreeTier(137, 43, 207, 277, GREEN, baseLights, 8, 16);
+
   drawStar(255);
-  for (size_t i=0; i<BULB_COUNT; ++i) drawBulb(i);
+  for (size_t i = 0; i < BULB_COUNT; ++i) drawBulb(i);
 }
 
 void drawGreeting() {

@@ -1,0 +1,49 @@
+name: Build firmware and publish Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up PlatformIO
+        uses: n-vr/setup-platformio@v1
+      - name: Build firmware
+        run: pio run -e cyd
+      - name: Assemble installer files
+        run: |
+          mkdir -p web/firmware
+          cp .pio/build/cyd/bootloader.bin web/firmware/bootloader.bin
+          cp .pio/build/cyd/partitions.bin web/firmware/partitions.bin
+          cp .pio/build/cyd/boot_app0.bin web/firmware/boot_app0.bin
+          cp .pio/build/cyd/firmware.bin web/firmware/firmware-v1.0.0.bin
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: web
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
